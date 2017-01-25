@@ -9,6 +9,12 @@ var GreeterMessage = React.createClass({
   }
 })
 
+var GreeterForm = React.createClass({
+  render: function() {
+
+  }
+})
+
 var Greeter = React.createClass({
   getDefaultProps: function(){
     return {
