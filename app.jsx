@@ -1,3 +1,4 @@
+// *******************  GreeterMessage *******************
 var GreeterMessage = React.createClass({
 
   render: function() {
@@ -13,34 +14,42 @@ var GreeterMessage = React.createClass({
   }
 })
 
+// *******************  GreeterForm *******************
 var GreeterForm = React.createClass({
+
   onFormSubmit: function(e) {
       e.preventDefault();
 
       var nameRef = this.refs.name;
       var name = nameRef.value;
-
-      if (name.length > 0) {
-        nameRef.value = "";
-      }
-      //alert(name);  // debugging
+      var message = this.refs.message.value;
 
       if (name.length > 0)
       {
+        nameRef.value = "";
         this.props.onNewName(name);
       }
 
+      if (message.length > 0)
+      {
+        this.refs.message.value = "";
+        this.props.onNewMessage(message);
+      }
+
+      //alert(name);  // debugging
   },
   render: function() {
     return (
-    <form onSubmit={this.onFormSubmit}>
-      <input type="text" ref="name"/>
-      <button>Set Name</button>
-    </form>
-  );
+      <form onSubmit={this.onFormSubmit}>
+        <input type="text" placeholder="Enter Name" ref="name"/>
+        <input type="textarea" placeholder="Enter Message" ref="message"/>
+        <button>Submit Form</button>
+      </form>
+    );
   }
 })
 
+// *******************  Greeter *******************
 var Greeter = React.createClass({
   getDefaultProps: function(){
     return {
@@ -50,22 +59,32 @@ var Greeter = React.createClass({
   },
   getInitialState: function(){
     return {
-      name: this.props.name
+      name: this.props.name,
+      message: this.props.message
     };
   },
   handleNewName: function(name){
+    //alert("Name: " + name);
       this.setState({
         name: name
       });
   },
+  handleNewMessage: function(message){
+      //alert("message: " + message);
+      this.setState({
+        message: message
+      });
+  },
   render: function(){
     var name = this.state.name
-    var message = this.props.message + name;
+    var message = this.state.message + " " + name;
+
+    //alert("Name: " + name + "  " + "message: " + message);
 
     return(
       <div>
         <GreeterMessage name={name} message={message}/>
-        <GreeterForm onNewName={this.handleNewName}/>
+        <GreeterForm onNewName={this.handleNewName} onNewMessage={this.handleNewMessage}/>
       </div>
     );
   }
