@@ -18,6 +18,7 @@ var Greeter = React.createClass({
     nameRef.value = "";
     //alert(name);  // debugging
 
+    // Don't change the state is the name field is empty
     if (typeof name === "string" && name.length > 0)
     {
       this.setState({
