@@ -24,26 +24,33 @@ var GreeterForm = React.createClass({
       var name = nameRef.value;
       var message = this.refs.message.value;
 
+      var updates = {};
+
       if (name.length > 0)
       {
         nameRef.value = "";
-        this.props.onNewName(name);
+        // this.props.onNewName(name);
+        updates.name = name;
       }
 
       if (message.length > 0)
       {
         this.refs.message.value = "";
-        this.props.onNewMessage(message);
+        // this.props.onNewMessage(message);
+        updates.message = message;
       }
+
+      this.props.onNewData(updates);
 
       //alert(name);  // debugging
   },
   render: function() {
     return (
       <form onSubmit={this.onFormSubmit}>
-        <input type="text" placeholder="Enter Name" ref="name"/>
-        <input type="textarea" placeholder="Enter Message" ref="message"/>
-        <button>Submit Form</button>
+
+        <div><input type="text" placeholder="Enter Name" ref="name"/></div>
+        <div><input type="textarea" placeholder="Enter Message" ref="message"/></div>
+        <div><button>Submit Form</button></div>
       </form>
     );
   }
@@ -63,28 +70,28 @@ var Greeter = React.createClass({
       message: this.props.message
     };
   },
-  handleNewName: function(name){
+  handleNewData: function(updates){
     //alert("Name: " + name);
-      this.setState({
-        name: name
-      });
+      this.setState(updates);
   },
+  /*
   handleNewMessage: function(message){
       //alert("message: " + message);
       this.setState({
         message: message
       });
   },
+  */
   render: function(){
     var name = this.state.name
-    var message = this.state.message + " " + name;
+    var message = this.state.message + ", " + name;
 
     //alert("Name: " + name + "  " + "message: " + message);
 
     return(
       <div>
         <GreeterMessage name={name} message={message}/>
-        <GreeterForm onNewName={this.handleNewName} onNewMessage={this.handleNewMessage}/>
+        <GreeterForm onNewData={this.handleNewData}/>
       </div>
     );
   }
